@@ -1,0 +1,12 @@
+SpeechRecognition
+pyttsx3
+requests
+pytz
+openai
+sympy
+python-dotenv
+# langchain
+# transformers
+# accelerate
+# sentence-transformers
+# faiss-cpu
