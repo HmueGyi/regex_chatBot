@@ -1,7 +1,9 @@
 const messages = document.getElementById("messages");
 const userInput = document.getElementById("userInput");
 const synth = window.speechSynthesis;
+const listeningBtn = document.getElementById("ListeningBtn");
 
+// Send user message to chatbot
 async function sendMessage() {
     const message = userInput.value.trim();
     if (!message) return;
@@ -27,6 +29,7 @@ async function sendMessage() {
     messages.scrollTop = messages.scrollHeight;
 }
 
+// Display messages in chat
 function addMessage(sender, text) {
     const messageDiv = document.createElement("div");
     messageDiv.className = sender;
@@ -34,50 +37,42 @@ function addMessage(sender, text) {
     messages.appendChild(messageDiv);
 }
 
+// Text-to-Speech
 function speakText(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     const voices = synth.getVoices();
-    utterance.voice = voices.find(voice => voice.name.includes("Female")) || voices[1];
+    utterance.voice = voices.find(voice => voice.name.includes("Female")) || voices[0];
     utterance.rate = 1;
     utterance.pitch = 1;
     synth.speak(utterance);
 }
 
-function startSpeechRecognition() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+// Speech Recognition
+listeningBtn.addEventListener("click", () => {
+    startListening();
+});
 
+function startListening() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
-        addMessage("bot", "Sorry, your browser does not support speech recognition.");
+        addMessage("bot", "❌ Your browser does not support speech recognition.");
         return;
     }
 
     const recognition = new SpeechRecognition();
     recognition.lang = "en-US";
-    recognition.interimResults = false; // Only final results
+    recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
-    try {
-        recognition.start();
-    } catch (err) {
-        addMessage("bot", "Could not start speech recognition: " + err.message);
-        return;
-    }
+    recognition.start();
 
     recognition.onresult = (event) => {
-        const speechResult = event.results[0][0].transcript.trim();
-        if (speechResult) {
-            userInput.value = speechResult;
-            sendMessage();
-        }
+        const transcript = event.results[0][0].transcript;
+        userInput.value = transcript;
+        sendMessage(); // this will add the user message once
     };
-
+    
     recognition.onerror = (event) => {
-        console.error("Speech recognition error:", event.error);
-        addMessage("bot", "Speech recognition error: " + event.error);
-    };
-
-    recognition.onend = () => {
-        console.log("Speech recognition ended.");
+        addMessage("bot", "❌ Error during speech recognition: " + event.error);
     };
 }
-

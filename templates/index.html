@@ -12,10 +12,23 @@
         <div id="input-area">
             <input type="text" id="userInput" placeholder="Type your message...">
             <button onclick="sendMessage()">Send</button>
-            <button onclick="startSpeechRecognition()">🎤</button>
+            <button id="ListeningBtn">Listening</button>
         </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        const listeningBtn = document.getElementById("ListeningBtn");
+
+        listeningBtn.addEventListener("click", () => {
+            // Call your speech recognition function here
+            startListening();
+        });
+
+        function startListening() {
+            console.log("Listening started...");
+            // Your speech recognition logic here
+        }
+    </script>
 </body>
 </html>
