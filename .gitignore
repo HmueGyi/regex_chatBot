@@ -1,0 +1,33 @@
+# Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+*.env
+
+# Config & secrets
+config.py
+.env
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+
+# Mac system files
+.DS_Store
+
+# Node modules (if using npm)
+node_modules/
+
+# Temporary files
+*.tmp
