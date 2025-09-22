@@ -5,6 +5,8 @@ pytz
 openai
 sympy
 python-dotenv
+flask
+flask-cors
 # langchain
 # transformers
 # accelerate
